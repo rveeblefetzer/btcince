@@ -13,7 +13,10 @@ The program takes user input for a date and an amount in USD, and returns the di
 bitcoin then and yesterday. Rates use volume-weighted average price (VWAP), and values are rounded to two decimals in
 instances when a human would expect it.
 
-It uses Bitstamp data from the free [Quandl API](https://www.quandl.com/data/BITSTAMP-Bitstamp).
+It uses Bitstamp data from the free [Quandl API](https://www.quandl.com/data/BITSTAMP-Bitstamp). To use it, add your API key
+somewhere as: `authtoken = YOUR_API_KEY`
+
+This can be in a separate config.py file, or at the top of btcince.py or transactions.py.
 
 ## errata
 My first stab at this was with the [btcince.py](btcince/btcince.py) script, which is one big quick sketch of a function. The
