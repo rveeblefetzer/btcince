@@ -38,10 +38,11 @@ class Transaction(object):
         while number_check is None:
             try:
                 self.orig_usd = input(
-                    f'What was the original amount in USD?:\n$')
+                    'What was the original amount in USD?:\n$')
                 number_check = float(self.orig_usd)
             except ValueError as e:
-                print(f'Wait, no, I need a number, int or float:\n{e}')
+                print('Wait, no, I need a number, int or float:')
+                print(e)
                 continue
         return self.orig_usd
 
@@ -114,11 +115,14 @@ class Transaction(object):
         new_value_nice = anon.round_value_like_normal_money(new_value)
         diff = anon.calculate_latest_value_difference(new_value_nice)
 
-        output = (f'You started with USD {anon.orig_usd} on '
-                  '{anon.orig_date},which equaled BTC {anon.orig_btc}')
-        print(f'As of now, that amount of bitcoin is valued at\
-              ${new_value_nice}.\n')
-        print(f'The change in value is ${round(diff, 2)}.')
+        output1 = (f'You started with USD {anon.orig_usd} on '
+                   f'{anon.orig_date}, which equaled BTC {anon.orig_btc}')
+        output2 = (f'As of now, that amount of bitcoin is valued at '
+                   f'${new_value_nice}.\n')
+        output3 = (f'The change in value is ${round(diff, 2)}.')
+        print(output1)
+        print(output2)
+        print(output3)
 
 if __name__ == '__main__':
     Transaction.main()
