@@ -24,7 +24,8 @@ import pytz
 class Transaction(object):
     """A class to govern Transaction objects and operations."""
 
-    def __init__(self, user=None, orig_usd=None, orig_date=None, orig_btc=None):
+    def __init__(self, user=None, orig_usd=None, orig_date=None,
+                 orig_btc=None):
         """Instantiate a Transaction object."""
         self.user = user
         self.orig_usd = orig_usd
@@ -36,22 +37,30 @@ class Transaction(object):
         number_check = None
         while number_check is None:
             try:
-                self.orig_usd = input('What was the original amount in USD?:\n$')
+                self.orig_usd = input(
+                    f'What was the original amount in USD?:\n$')
                 number_check = float(self.orig_usd)
             except ValueError as e:
                 print(f'Wait, no, I need a number, int or float:\n{e}')
-            return self.orig_usd
+                continue
+        return self.orig_usd
 
     def get_orig_tx_date(self):
         """Ask user for starting date."""
         date_check = None
         while date_check is None:
             try:
-                self.orig_date = input('What was the date? Format it "YYYY-MM-DD":\n>')
-                check_setup = datetime.datetime.strptime(self.orig_date, '%Y-%m-%d')
+                self.orig_date = input(
+                    'What was the date? Format it "YYYY-MM-DD":\n>')
+                check_setup = datetime.datetime.strptime(
+                    self.orig_date, '%Y-%m-%d')
+                if check_setup < datetime.datetime(2014, 4, 15, 0, 0, 0, 0):
+                    print('Sorry, I only have data for 2014-04-15 and after')
+                    continue
                 date_check = datetime.date.isoformat(check_setup)
             except ValueError:
                 print('No, it must be formatted YYYY-MM-DD')
+                continue
             return self.orig_date
 
     def convert_orig_usd_btc(self):
@@ -61,7 +70,8 @@ class Transaction(object):
         if self.orig_date is None:
             orig_date = self.get_orig_tx_date()
         orig_rates = quandl.get('BITSTAMP/USD', authtoken=authtoken,
-                                start_date=self.orig_date, end_date=self.orig_date)
+                                start_date=self.orig_date,
+                                end_date=self.orig_date)
         orig_vwap = orig_rates['VWAP'][0]
         self.orig_btc = float(self.orig_usd) / orig_vwap
         return self.orig_btc
@@ -73,8 +83,8 @@ class Transaction(object):
         if now < today7pm:
             now = now - datetime.timedelta(days=1)
         now = datetime.datetime.strftime(now, '%Y-%m-%d')
-        current_rate = quandl.get('BITSTAMP/USD', authtoken=authtoken,\
-            start_date=now, end_date=now)
+        current_rate = quandl.get('BITSTAMP/USD', authtoken=authtoken,
+                                  start_date=now, end_date=now)
         current_vwap = current_rate['VWAP'][0]
         return current_vwap
 
@@ -97,14 +107,17 @@ class Transaction(object):
         return diff
 
     def main():
+        """Run as one program."""
         anon = Transaction()
         anon.orig_btc = anon.convert_orig_usd_btc()
         new_value = anon.get_updated_btc_value(anon.get_btc_current())
         new_value_nice = anon.round_value_like_normal_money(new_value)
         diff = anon.calculate_latest_value_difference(new_value_nice)
 
-        print(f'You started with USD {anon.orig_usd} on {anon.orig_date}, which equaled BTC {anon.orig_btc}')
-        print(f'As of now, that amount of bitcoin is valued at ${new_value_nice}.\n')
+        output = (f'You started with USD {anon.orig_usd} on '
+                  '{anon.orig_date},which equaled BTC {anon.orig_btc}')
+        print(f'As of now, that amount of bitcoin is valued at\
+              ${new_value_nice}.\n')
         print(f'The change in value is ${round(diff, 2)}.')
 
 if __name__ == '__main__':
