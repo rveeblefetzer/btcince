@@ -2,11 +2,15 @@
 
 """The point of this module is to compare an old value in Bitcoin to now.
 
-As a script, it takes user input for a date and an amount in USD, and returns
-difference in value between that amount in bitcoin then and yesterday.
-Rates use volume-weighted average price (VWAP), and values are rounded to two
-decimals in instances when a human would expect it. It uses Bitstamp data
-from the free Quandl API.
+Given a date and an amount in USD, it returns the difference in value between
+that amount in bitcoin then and yesterday. Rates use volume-weighted average
+price (VWAP), and values are rounded to two decimals in instances when a
+human would expect it.
+
+It uses Bitstamp data from the free Quandl API. To use it, add your API key
+somewhere as:
+
+authtoken = YOUR_API_KEY
 """
 
 from config import authtoken
@@ -65,6 +69,7 @@ class Transaction(object):
         """Get yesterday's BTC/USD rate."""
         yesterday = (datetime.date.today() - datetime.timedelta(days=1))\
             .isoformat()
+            if yesterday 
         yesterday_rates = quandl.get('BITSTAMP/USD', authtoken=authtoken,\
             start_date=yesterday, end_date=yesterday)
         yesterday_vwap = yesterday_rates['VWAP'][0]
