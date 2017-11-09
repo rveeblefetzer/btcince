@@ -104,7 +104,7 @@ class Transaction(object):
         diff = anon.calculate_latest_value_difference(new_value_nice)
 
         print(f'You started with USD {anon.orig_usd} on {anon.orig_date}, which equaled BTC {anon.orig_btc}')
-        print(f'As of now, that amount of bitcoin was valued at ${new_value_nice}.\n')
+        print(f'As of now, that amount of bitcoin is valued at ${new_value_nice}.\n')
         print(f'The change in value is ${round(diff, 2)}.')
 
 if __name__ == '__main__':
