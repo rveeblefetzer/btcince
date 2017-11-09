@@ -2,21 +2,25 @@
 
 import pytest
 from unittest import mock
-import transactions
+from unittest.mock import patch, MagicMock
 
 
-class TestClass(object):
+from transactions import Transaction
 
-    @pytest.fixture
-    def basic_setup():
-        from transactions import Transaction
-        anon = Transaction()
+@pytest.fixture
+def full_tester():
+    tester = Transaction('test', '100', '2017-01-01')
+    return tester
 
-    @pytest.fixture()
-    def before():
-        print('\nbefore each test')
+@pytest.fixture
+def blank_tester():
+    tester = Transaction()
+    return tester
 
+def test_transcation_created(full_tester):
+    assert full_tester.orig_usd == '100'
 
-    def test_invalid_usd(before):
-        print('why you no print fixture print?!?')
-        assert 1 == 1
+@mock.patch('builtins.input', MagicMock(side_effect=['500']))
+def test_good_usd_input(blank_tester):
+    blank_tester.get_orig_tx_amount()
+    assert blank_tester.orig_usd == '500'
