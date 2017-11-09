@@ -18,6 +18,7 @@ import quandl
 import datetime
 from decimal import Decimal as d
 from decimal import ROUND_HALF_UP
+import pytz
 
 
 class Transaction(object):
@@ -65,22 +66,24 @@ class Transaction(object):
         self.orig_btc = float(self.orig_usd) / orig_vwap
         return self.orig_btc
 
-    def get_btc_yesterday(self):
-        """Get yesterday's BTC/USD rate."""
-        yesterday = (datetime.date.today() - datetime.timedelta(days=1))\
-            .isoformat()
-            if yesterday 
-        yesterday_rates = quandl.get('BITSTAMP/USD', authtoken=authtoken,\
-            start_date=yesterday, end_date=yesterday)
-        yesterday_vwap = yesterday_rates['VWAP'][0]
-        return yesterday_vwap
+    def get_btc_current(self):
+        """Get current BTC/USD rate."""
+        now = datetime.datetime.now(tz=pytz.timezone('America/New_York'))
+        today7pm = now.replace(hour=19, minute=0, second=0, microsecond=0)
+        if now < today7pm:
+            now = now - datetime.timedelta(days=1)
+        now = datetime.datetime.strftime(now, '%Y-%m-%d')
+        current_rate = quandl.get('BITSTAMP/USD', authtoken=authtoken,\
+            start_date=now, end_date=now)
+        current_vwap = current_rate['VWAP'][0]
+        return current_vwap
 
-    def get_updated_btc_value(self, yesterday_vwap):
+    def get_updated_btc_value(self, current_vwap):
         """Get USD value of original btc amount at yesterday's rate."""
         if self.orig_btc is None:
             self.orig_btc = self.convert_orig_usd_btc()
-        yesterday_usd_value = float(self.orig_btc) * yesterday_vwap
-        return yesterday_usd_value
+        current_usd_value = float(self.orig_btc) * current_vwap
+        return current_usd_value
 
     def round_value_like_normal_money(self, fiat_value):
         """Round the value to max two decimal places."""
@@ -96,12 +99,12 @@ class Transaction(object):
     def main():
         anon = Transaction()
         anon.orig_btc = anon.convert_orig_usd_btc()
-        new_value = anon.get_updated_btc_value(anon.get_btc_yesterday())
+        new_value = anon.get_updated_btc_value(anon.get_btc_current())
         new_value_nice = anon.round_value_like_normal_money(new_value)
         diff = anon.calculate_latest_value_difference(new_value_nice)
 
         print(f'You started with USD {anon.orig_usd} on {anon.orig_date}, which equaled BTC {anon.orig_btc}')
-        print(f'As of yesterday, that amount of bitcoin was valued at ${new_value_nice}.\n')
+        print(f'As of now, that amount of bitcoin was valued at ${new_value_nice}.\n')
         print(f'The change in value is ${round(diff, 2)}.')
 
 if __name__ == '__main__':
