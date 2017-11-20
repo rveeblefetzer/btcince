@@ -40,10 +40,8 @@ class Transaction(object):
                 self.orig_usd = input(
                     'What was the original amount in USD?:\n$')
                 number_check = float(self.orig_usd)
-            except ValueError as e:
-                print('Wait, no, I need a number, int or float:')
-                print(e)
-                continue
+            except ValueError:
+                print('Wait, no, I need a number, int or float')
         return self.orig_usd
 
     def get_orig_tx_date(self):
@@ -55,13 +53,16 @@ class Transaction(object):
                     'What was the date? Format it "YYYY-MM-DD":\n>')
                 check_setup = datetime.datetime.strptime(
                     self.orig_date, '%Y-%m-%d')
+            except ValueError:
+                print('idk that that was')
+                continue
+            try:
                 if check_setup < datetime.datetime(2014, 4, 15, 0, 0, 0, 0):
                     print('Sorry, I only have data for 2014-04-15 and after')
                     continue
                 date_check = datetime.date.isoformat(check_setup)
             except ValueError:
                 print('No, it must be formatted YYYY-MM-DD')
-                continue
             return self.orig_date
 
     def convert_orig_usd_btc(self):
