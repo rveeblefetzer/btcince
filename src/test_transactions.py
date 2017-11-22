@@ -43,3 +43,7 @@ def test_good_date_input(blank_tester):
 #     with pytest.raises(TypeError):
 #         blank_tester.get_orig_tx_date()
 #     # assert blank_tester.orig_date == '2017-01-01'
+
+def test_orig_btc_conversion(full_tester):
+    assert full_tester.convert_orig_usd_btc() == 0.10463206135624077
+
