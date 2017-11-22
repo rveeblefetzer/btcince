@@ -4,7 +4,6 @@ import pytest
 from unittest import mock
 from unittest.mock import MagicMock
 from transactions import Transaction
-import pdb
 
 
 @pytest.fixture(scope='function')
