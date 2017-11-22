@@ -78,23 +78,27 @@ class Transaction(object):
         self.orig_btc = float(self.orig_usd) / orig_vwap
         return self.orig_btc
 
-    def get_btc_current(self):
-        """Get current BTC/USD rate."""
+    def get_now(self):
+        """Get current date, and maybe adjust for API update time."""
         now = datetime.datetime.now(tz=pytz.timezone('America/New_York'))
         today7pm = now.replace(hour=19, minute=0, second=0, microsecond=0)
         if now < today7pm:
             now = now - datetime.timedelta(days=1)
         now = datetime.datetime.strftime(now, '%Y-%m-%d')
+        return now
+
+    def get_btc_current(self):
+        """Get current BTC/USD rate."""
         current_rate = quandl.get('BITSTAMP/USD', authtoken=authtoken,
-                                  start_date=now, end_date=now)
+                                  start_date=self.get_now(), end_date=self.get_now())
         current_vwap = current_rate['VWAP'][0]
         return current_vwap
 
-    def get_updated_btc_value(self, current_vwap):
+    def get_updated_btc_value(self):
         """Get USD value of original btc amount at yesterday's rate."""
         if self.orig_btc is None:
             self.orig_btc = self.convert_orig_usd_btc()
-        current_usd_value = float(self.orig_btc) * current_vwap
+        current_usd_value = float(self.orig_btc) * self.get_btc_current()
         return current_usd_value
 
     def round_value_like_normal_money(self, fiat_value):
@@ -112,7 +116,7 @@ class Transaction(object):
         """Run as one program."""
         anon = Transaction()
         anon.orig_btc = anon.convert_orig_usd_btc()
-        new_value = anon.get_updated_btc_value(anon.get_btc_current())
+        new_value = anon.get_updated_btc_value()
         new_value_nice = anon.round_value_like_normal_money(new_value)
         diff = anon.calculate_latest_value_difference(new_value_nice)
 

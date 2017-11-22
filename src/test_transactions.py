@@ -47,3 +47,10 @@ def test_good_date_input(blank_tester):
 def test_orig_btc_conversion(full_tester):
     assert full_tester.convert_orig_usd_btc() == 0.10463206135624077
 
+def test_rounding(blank_tester):
+    assert blank_tester.round_value_like_normal_money(13.372600) == 13.37
+
+@mock.patch('transactions.Transaction.get_now', lambda _:  '2017-01-01')
+def test_getting_btc_api_updated(blank_tester):
+    assert blank_tester.get_btc_current() == 955.73000000000002
+
