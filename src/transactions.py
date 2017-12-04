@@ -18,7 +18,7 @@ import datetime
 from decimal import Decimal as d
 from decimal import ROUND_HALF_UP
 import pytz
-# from config import authtoken [old: now hiding this in Travis]
+import authtoken
 
 
 class Transaction(object):
