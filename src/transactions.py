@@ -18,7 +18,6 @@ import datetime
 from decimal import Decimal as d
 from decimal import ROUND_HALF_UP
 import pytz
-import authtoken
 
 
 class Transaction(object):
