@@ -1,13 +1,13 @@
 language: python
 python:
-  - "3.5"
-  - "3.6"
-# command to install dependencies
+- '3.5'
+- '3.6'
 install:
-  - pip install .
-  - pip install -r requirements.txt
-# command to run tests
+- pip install .
+- pip install -r requirements.txt
 script: py.test
-
 after_success:
-  - coveralls
+- coveralls
+env:
+  global:
+    secure: JLeR2Aabqy9EZWheKzVtXtRh4xI5x93n6jmN/Y4Ebku1D+0l2sgiEq66XLeayRnndxtWqGVdPszo3OCWz30MWEBXultxkUCTaVDEScWX80iNVs4nKvtoQnqmV2vxCHPUKx9iEkte2QFYO6pLNXoUuoRF+VMbLbEp0gICW7jz7svVG8v3WkHMch08+9LAOH35UqUB5OlOTkZQT4drdtzHsFOLHU9qdr83fR8G3ExVtBUMpDiG7t3vzglEITWyShIjfGfwY7LuVUkTJF5mE7oYqX7CQF3dKA+CYMaIdSgj0aEN+NVRvtzUgmavliE/Ayo2rOYrzx8AxwaasgxIGBy7VbFBuHpuPMiuJxI9oIubeSQ99ub3anyfB6tQj9tHwD4kR7UhQdXuE9tWmkxTnqg9cuimthrqdplvCKChhuYuVL4FAE9lXnEGaC1LwKCQdArS7SI1eGb5PlFM2OZiVqnhJmUnk154YoHQUoRkOP6m9+O34nXnfKFn3z7xJzoq/6dpI5VD0h13j6LeAraUs4i+yWwY6UEf7D/tlQJ9cr5nvJfN+khQ4Xdba6mcxtbKerLF3G54UbRNbV7tFxiL+uPuQPaR3ms3ofutBbId3HURCYzAy/w6uyrxRIE+u7lMbclIrvBhkPABjflTG5+2B34WgwLi4Opi/aiFE3BO/TLUfKk=
