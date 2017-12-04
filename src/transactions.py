@@ -10,7 +10,7 @@ human would expect it.
 It uses Bitstamp data from the free Quandl API. To use it, add your API key
 somewhere as:
 
-authtoken = YOUR_API_KEY
+AUTHTOKEN = YOUR_API_KEY
 """
 
 import quandl
@@ -70,7 +70,7 @@ class Transaction(object):
             orig_usd = self.get_orig_tx_amount()
         if self.orig_date is None:
             orig_date = self.get_orig_tx_date()
-        orig_rates = quandl.get('BITSTAMP/USD', authtoken=authtoken,
+        orig_rates = quandl.get('BITSTAMP/USD', authtoken=AUTHTOKEN,
                                 start_date=self.orig_date,
                                 end_date=self.orig_date)
         orig_vwap = orig_rates['VWAP'][0]
@@ -88,7 +88,7 @@ class Transaction(object):
 
     def get_btc_current(self):
         """Get current BTC/USD rate."""
-        current_rate = quandl.get('BITSTAMP/USD', authtoken=authtoken,
+        current_rate = quandl.get('BITSTAMP/USD', authtoken=AUTHTOKEN,
                                   start_date=self.get_now(),
                                   end_date=self.get_now())
         current_vwap = current_rate['VWAP'][0]
