@@ -90,7 +90,8 @@ class Transaction(object):
     def get_btc_current(self):
         """Get current BTC/USD rate."""
         current_rate = quandl.get('BITSTAMP/USD', authtoken=authtoken,
-                                  start_date=self.get_now(), end_date=self.get_now())
+                                  start_date=self.get_now(),
+                                  end_date=self.get_now())
         current_vwap = current_rate['VWAP'][0]
         return current_vwap
 
@@ -120,8 +121,8 @@ class Transaction(object):
         new_value_nice = anon.round_value_like_normal_money(new_value)
         diff = anon.calculate_latest_value_difference(new_value_nice)
 
-        output1 = (f'You started with USD {anon.orig_usd} on '
-                   f'{anon.orig_date}, which equaled BTC {anon.orig_btc}')
+        output1 = (f'You started with USD {anon.orig_usd} on {anon.orig_date},'
+                   'which equaled BTC {anon.orig_btc}')
         output2 = (f'As of now, that amount of bitcoin is valued at '
                    f'${new_value_nice}.\n')
         output3 = (f'The change in value is ${round(diff, 2)}.')
