@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/rveeblefetzer/btcince.svg?branch=master)](https://travis-ci.org/rveeblefetzer/btcince)
+
 # btcince
 A Python script to compare an old bitcoin transaction to the value of that transaction now(ish).
 
