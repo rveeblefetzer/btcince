@@ -1,13 +1,15 @@
 language: python
 python:
-- '3.6'
+  - "3.6"
+# command to install dependencies
 install:
-- pip install .
-- pip install -r requirements.txt
-script: py.test
-after_success:
-- coveralls
+  - pip install .
+  - pip install -r requirements.txt
 env:
   global:
     auththoken:
       secure: m0IC5FSrBkFarpLsFvfcOheG1EE808oiGgJXPbP3bM882Ual3MyoyeG7tZGN2RFjZJ+IBvfPDBFUJNbLehYtcRkwrD92NMOVvv1JwEHB6+RW7IMmMxOHbC343HuJJTkxx0IsCMvGz5Ys3YyIIXTdOaYS08Hsxq7+Ro1aXWtjB//ZaUXJc0cxVcXg8Q+bsYk6zo3lyiqY7yBsHtsFimAh5BbZn8MK7bC3ZdtVdCrkTu5Zi9jARRCVpvEXVjdD9rFzo9TpPvgt9hJHb+OlynHj2rZ0FF7N+l7C5DrubsmXaZhXT8OavZJbCgSpmtUP8yyAnolB+h93nALlMWuhjk5m17c9UJvGoGcJlbpQ8w3VhPn6tYSUZ2b1P4d8Pr2uDsaUs2nbMYQ27RREArsO9hDW7yX7vWoUCFvtwpeS+3fpfwaPNa3Tkhvllw4p1iftm0Rfr9+rUs0FSD4ksqwU6BWmEgY+h+ROchW5SmZ4uOAdJwmzR4qvYDu+3sYIXUkLd8uOku86fEQ0CHoQ7Bxl1g+NI5c5UrANFqGGSjUggCCeEkbxFP7c0X/ELCyLvJ2EGp9XNOskd0YUKfXgQnFAj57ZECRosDbNwzXVZ5fZUDmtEEoKGhkdjHWgIJnvDYJzsY2ND4R70R5841hUYINgdtNUgj+fgQSSQCDkwGoiCSmBydY=
+# command to run tests
+script: py.test
+after_success:
+- coveralls
