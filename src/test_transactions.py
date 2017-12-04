@@ -17,13 +17,16 @@ def blank_tester():
     yield tester
 
 def test_transcation_created(full_tester):
+    """Test that Transaction object initialized with data."""
     assert full_tester.orig_usd == '100'
 
 def test_blank_transaction_initialized(blank_tester):
+    """Test that empty Transaction object initialized."""
     assert blank_tester.orig_usd is None
 
 @mock.patch('builtins.input', lambda _:  '500')
 def test_good_usd_input(blank_tester):
+    """Test valid user input for USD amount."""
     blank_tester.get_orig_tx_amount()
     assert blank_tester.orig_usd == '500'
 
@@ -35,6 +38,7 @@ def test_good_usd_input(blank_tester):
 
 @mock.patch('builtins.input', lambda _: '2017-01-01')
 def test_good_date_input(blank_tester):
+    """Test valid user input for date."""
     blank_tester.get_orig_tx_date()
     assert blank_tester.orig_date == '2017-01-01'
 
