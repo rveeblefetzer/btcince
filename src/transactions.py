@@ -13,12 +13,14 @@ somewhere as:
 authtoken = YOUR_API_KEY
 """
 
-from config import authtoken
 import quandl
 import datetime
 from decimal import Decimal as d
 from decimal import ROUND_HALF_UP
 import pytz
+
+if authtoken is None:
+    from config import authtoken
 
 
 class Transaction(object):
