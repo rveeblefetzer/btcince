@@ -1,12 +1,12 @@
 language: python
 python:
-  - "3.6"
-# command to install dependencies
+- '3.6'
 install:
-  - pip install .
-  - pip install -r requirements.txt
-# command to run tests
+- pip install .
+- pip install -r requirements.txt
 script: py.test
-
 after_success:
-  - coveralls
+- coveralls
+deploy:
+  authtoken:
+    secure: YBvUSRCIK/EFxFZ9ULuKj3zjayiFw5BTA0ubmo37HdzcZbeMWdbnbQhBkL1fC2h0zUzlPFlqa7eqlBfPOASNoMItXNzy1oxWE/MBbpKWJm3BDUX6c1QDkrckDbaZVHYMvCswk+bv7EaN0Yie+6w68oMXpT8tG2+ghsGKerVedvi9wP+ZUf75NzmQI9+zdiIg/N03iKgFi54p644IF/DA0fxVM8bwATVHVjXVggRhqTfb4DRl3FtgL1FWqaVed9CWTXxHiUxrx05uGQpcq17Ub9W9piSauQj+tY7y9a5OAIfo7orCNttkFAOIH8OaNG1dZt4oamswBoMIWx1sDt6aue5iAc9e6Z9X9UbHGw3tNvCTJG/c4KhsLA4mbFfqupIXNZ9EjUdhHN9GFRucLbkukshRTHZ9+XwCENgEeCmOHJOSFvMyy2O8jAQDX4mwzoXc6BS9QXHo8PIohua8CQDzzG7JBpFLEp9yaT15awUBJw6k+/C1BSX9YSiAVDWWCFlGWuJs3CcYuMCOHi8WWS1wRqOK26tPF/4XqDivjMcF4l9+YT/BlZjCwxB7qMvfx9xmy88lMIoxPzDM1PwIKDeoHlMrQXUGK4AtbVI6r3ucz+brAlA06LjO/XU8lfB0Fj01MegaTorvq7jEprKw7vYxddfMN/czvgfro2pcvJ0qWnU=
