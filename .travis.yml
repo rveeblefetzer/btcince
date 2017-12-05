@@ -4,6 +4,7 @@ python:
 install:
 - pip install .
 - pip install -r requirements.txt
+- pip install python-coveralls
 script:
 - export AUTHTOKEN=$AUTHTOKEN
 - py.test
