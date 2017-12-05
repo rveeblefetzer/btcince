@@ -7,6 +7,6 @@ install:
 - pip install python-coveralls
 script:
 - export AUTHTOKEN=$AUTHTOKEN
-- py.test
+- py.test --cov . --cov-report term-missing
 after_success:
 - coveralls
