@@ -20,7 +20,7 @@ from decimal import ROUND_HALF_UP
 import pytz
 import os
 
-AUTHTOKEN = os.environ['AUTHTOKEN']
+from config import AUTHTOKEN 
 
 
 class Transaction(object):
