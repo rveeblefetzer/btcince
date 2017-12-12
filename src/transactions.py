@@ -19,7 +19,7 @@ from decimal import Decimal as d
 from decimal import ROUND_HALF_UP
 import pytz
 import os
-
+import sys
 from config import AUTHTOKEN
 
 
@@ -37,10 +37,14 @@ class Transaction(object):
     def get_orig_tx_amount(self):
         """Ask user for starting amount."""
         number_check = None
+        print(sys.argv)
+        if len(sys.argv) == 3:
+            self.orig_usd = sys.argv[1]
+        else:
+            self.orig_usd = input(
+                    'What was the original amount in USD?:\n$')
         while number_check is None:
             try:
-                self.orig_usd = input(
-                    'What was the original amount in USD?:\n$')
                 number_check = float(self.orig_usd)
             except ValueError:
                 print('Wait, no, I need a number, int or float')
@@ -50,11 +54,12 @@ class Transaction(object):
         """Ask user for starting date."""
         date_check = None
         while date_check is None:
+            if len(sys.argv) == 3:
+                self.orig_date = sys.argv[2]
+            else:
+                self.orig_date = input('What was the date? Format it "YYYY-MM-DD":\n>')
             try:
-                self.orig_date = input(
-                    'What was the date? Format it "YYYY-MM-DD":\n>')
-                check_setup = datetime.datetime.strptime(
-                    self.orig_date, '%Y-%m-%d')
+                check_setup = datetime.datetime.strptime(self.orig_date, '%Y-%m-%d')
             except ValueError:
                 print('idk that that was')
                 continue
