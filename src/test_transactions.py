@@ -3,7 +3,7 @@
 import pytest
 from unittest import mock
 from unittest.mock import MagicMock
-from transactions import Transaction
+from btcince import Transaction
 
 
 @pytest.fixture(scope='function')

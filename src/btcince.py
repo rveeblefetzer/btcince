@@ -1,16 +1,23 @@
 #!/usr/bin/env python3.6
 
-"""The point of this module is to compare an old value in Bitcoin to now.
+"""btcince.
 
-Given a date and an amount in USD, it returns the difference in value between
-that amount in bitcoin then and yesterday. Rates use volume-weighted average
-price (VWAP), and values are rounded to two decimals in instances when a
-human would expect it.
+Compares an old value in Bitcoin (according to USD exchange) with its current
+value.  It takes a date (formatted 'YYYY-MM-DD') and a USD amount, and it
+returns the difference in value between that amount in bitcoin then and for the
+most recent end-of-day trading in New York. Rates use volume-weighted average
+price (VWAP), and values are rounded to two decimals in instances when a human
+would expect it.
 
 It uses Bitstamp data from the free Quandl API. To use it, add your API key
-somewhere as:
+somewhere as: `AUTHTOKEN = YOUR_API_KEY`
 
-AUTHTOKEN = YOUR_API_KEY
+Usage:
+    btcince [<original_USD_amount> <original_date>]
+
+Options:
+    -h --help     Show this screen.
+    --version     Show version.
 """
 
 import quandl
@@ -18,9 +25,9 @@ import datetime
 from decimal import Decimal as d
 from decimal import ROUND_HALF_UP
 import pytz
-import os
 import sys
-
+from docopt import docopt
+import os
 
 AUTHTOKEN = os.environ['AUTHTOKEN']
 
@@ -39,7 +46,6 @@ class Transaction(object):
     def get_orig_tx_amount(self):
         """Ask user for starting amount."""
         number_check = None
-        print(sys.argv)
         if len(sys.argv) == 3:
             self.orig_usd = sys.argv[1]
         else:
@@ -49,7 +55,8 @@ class Transaction(object):
             try:
                 number_check = float(self.orig_usd)
             except ValueError:
-                print('Wait, no, I need a number, int or float')
+                print("""Sorry, you need to give me a number. Whole dollars or
+                      with cents works, as long as it's in Arabic numerals.""")
         return self.orig_usd
 
     def get_orig_tx_date(self):
@@ -63,7 +70,7 @@ class Transaction(object):
             try:
                 check_setup = datetime.datetime.strptime(self.orig_date, '%Y-%m-%d')
             except ValueError:
-                print('idk that that was')
+                print("That doesn't work for me.")
                 continue
             try:
                 if check_setup < datetime.datetime(2014, 4, 15, 0, 0, 0, 0):
@@ -130,8 +137,8 @@ class Transaction(object):
         new_value_nice = anon.round_value_like_normal_money(new_value)
         diff = anon.calculate_latest_value_difference(new_value_nice)
 
-        output1 = (f'You started with USD {anon.orig_usd} on {anon.orig_date},'
-                   'which equaled BTC {anon.orig_btc}')
+        output1 = (f'\nYou started with USD {anon.orig_usd} on {anon.orig_date}, '
+                   f'which equaled BTC {anon.orig_btc}')
         output2 = (f'As of now, that amount of bitcoin is valued at '
                    f'${new_value_nice}.\n')
         output3 = (f'The change in value is ${round(diff, 2)}.')
@@ -140,4 +147,5 @@ class Transaction(object):
         print(output3)
 
 if __name__ == '__main__':
+    arguments = docopt(__doc__, version='btcince 0.1')
     Transaction.main()

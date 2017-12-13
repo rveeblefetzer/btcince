@@ -12,8 +12,8 @@ setup(
     author_email="rv@rickv.com",
     license="MIT",
     package_dir={'': 'src'},
-    py_modules=['transactions'],
-    install_requires=['Quandl'],
+    py_modules=['btcince'],
+    install_requires=['Quandl', 'pytz', 'docopt'],
     extras_require={
         "test": ['tox', 'pytest', 'pytest-watch', 'pytest-cov']
     },
