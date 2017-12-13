@@ -23,6 +23,9 @@ import sys
 from config import AUTHTOKEN
 
 
+AUTHTOKEN = os.environ['AUTHTOKEN']
+
+
 class Transaction(object):
     """A class to govern Transaction objects and operations."""
 
