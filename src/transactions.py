@@ -20,7 +20,6 @@ from decimal import ROUND_HALF_UP
 import pytz
 import os
 import sys
-from config import AUTHTOKEN
 
 
 AUTHTOKEN = os.environ['AUTHTOKEN']
